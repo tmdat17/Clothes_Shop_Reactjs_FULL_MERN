@@ -8,6 +8,11 @@ import DetailOrder from "./pages/detailOrder/DetailOrder";
 import AddNewProduct from "./pages/addNewProduct/AddNewProduct";
 import AddDetailProduct from "./pages/addDetailProduct/AddDetailProduct";
 import AddGaleryProduct from "./pages/addGaleryProduct/AddGaleryProduct";
+import EditProduct from "./pages/editProduct/EditProduct";
+import Warehouse1 from "./pages/warehouse1/Warehouse1";
+import Warehouse2 from "./pages/warehouse2/Warehouse2";
+import Warehouse3 from "./pages/warehouse3/Warehouse3";
+import Warehouse4 from "./pages/warehouse4/Warehouse4";
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { productInputs, userInputs } from "./formSource";
@@ -53,8 +58,8 @@ function App() {
                             <Route path="products">
                                 <Route index element={<ListProduct />} />
                                 <Route
-                                    path=":productId"
-                                    element={<DetailUser />}
+                                    path="edit/:productId"
+                                    element={<EditProduct />}
                                 />
                                 <Route path="new" element={<AddNewProduct />}>
                                     <Route
@@ -67,6 +72,23 @@ function App() {
                                     />
                                 </Route>
                             </Route>
+
+                            <Route
+                                path="warehouse_1"
+                                element={<Warehouse1 />}
+                            />
+                            <Route
+                                path="warehouse_2"
+                                element={<Warehouse2 />}
+                            />
+                            <Route
+                                path="warehouse_3"
+                                element={<Warehouse3 />}
+                            />
+                            <Route
+                                path="warehouse_4"
+                                element={<Warehouse4 />}
+                            />
                         </Route>
                     </Routes>
                 </BrowserRouter>

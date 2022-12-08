@@ -112,7 +112,7 @@ const DetailUser = () => {
                                             Address
                                         </TableCell>
                                         <TableCell className="tableCell">
-                                            Amount
+                                            Total Price
                                         </TableCell>
                                         <TableCell className="tableCell">
                                             Payment Method

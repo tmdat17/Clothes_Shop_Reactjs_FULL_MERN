@@ -69,16 +69,17 @@ function AddDetailProduct() {
                 let msg;
                 msg = "Thêm sản phẩm thành công!!";
                 setMessage(msg);
+
+                setNameProduct("");
+                setPrice("");
+                setDescription("");
+                setColor("");
+                setThumbnailFront("");
+                setThumbnailBack("");
+                setSize([]);
+                setWareHouseID([]);
             })
             .catch((error) => console.log(error));
-        setNameProduct("");
-        setPrice("");
-        setDescription("");
-        setColor("");
-        setThumbnailFront("");
-        setThumbnailBack("");
-        setSize([]);
-        setWareHouseID([]);
     };
 
     return (

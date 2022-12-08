@@ -94,3 +94,15 @@
         }
     }
 }
+
+.cellWithImg2 {
+    display: flex;
+    align-items: center;
+
+    .cellImgProduct {
+        width: 60px;
+        height: 80px;
+        object-fit: cover;
+        margin-right: 20px;
+    }
+}

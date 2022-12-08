@@ -20,7 +20,7 @@ const AddNewProduct = () => {
             <div className="listContainer">
                 <Navbar />
                 <button
-                    className="btn btn-primary mx-2 my-3 h-5"
+                    className="btn btn-primary mx-2 my-3"
                     onClick={() => {
                         navigate("/products/new/");
                     }}
@@ -28,7 +28,7 @@ const AddNewProduct = () => {
                     Add Detail Product
                 </button>
                 <button
-                    className="btn btn-primary mx-2 my-3 h-10"
+                    className="btn btn-primary mx-2 my-3"
                     onClick={() => {
                         navigate("/products/new/add_galery");
                     }}

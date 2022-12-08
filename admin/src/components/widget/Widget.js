@@ -1,74 +1,120 @@
-import './widget.scss';
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
-import AccountBalanceWalletOutlinedIcon from '@mui/icons-material/AccountBalanceWalletOutlined';
-import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
-import MonetizationOnOutlinedIcon from '@mui/icons-material/MonetizationOnOutlined';
+import "./widget.scss";
+import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
+import AccountBalanceWalletOutlinedIcon from "@mui/icons-material/AccountBalanceWalletOutlined";
+import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
+import CategoryIcon from "@mui/icons-material/Category";
+import Warehouse from "@mui/icons-material/Warehouse";
+
+import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+
+import ProductService from "../../services/ProductService";
+import UserService from "../../services/UserService";
+import OrderService from "../../services/OrderService";
+import WarehouseService from "../../services/WarehouseService";
 
 const Widget = ({ type }) => {
     let data;
+    const [amountUser, setAmountUser] = useState(0);
+    const [amountProduct, setAmountProduct] = useState(0);
+    const [amountOrder, setAmountOrder] = useState(0);
+    const [amountWarehouse, setAmountWarehouse] = useState(0);
 
-    //temporary
-    const amount = 100;
-    const diff = 20;
+    const admin = useSelector((state) => state.auth.login?.currentUser);
+    useEffect(() => {
+        UserService.getAllUser(admin?.accessToken)
+            .then((res) => {
+                setAmountUser(res.data.length);
+            })
+            .catch((error) => console.log(error));
+    }, []);
+    useEffect(() => {
+        ProductService.getAllProduct()
+            .then((res) => {
+                setAmountProduct(res.data.length);
+            })
+            .catch((error) => console.log(error));
+    }, []);
+    useEffect(() => {
+        OrderService.getAllOrder()
+            .then((res) => {
+                setAmountOrder(res.data.length);
+            })
+            .catch((error) => console.log(error));
+    }, []);
+    useEffect(() => {
+        WarehouseService.getAllWarehouse()
+            .then((res) => {
+                setAmountWarehouse(res.data.length);
+            })
+            .catch((error) => console.log(error));
+    }, []);
 
     switch (type) {
-        case 'user':
+        case "user":
             data = {
-                title: 'USERS',
-                isMoney: false,
-                link: 'See all users',
+                title: "USERS",
+                amount: amountUser,
                 icon: (
                     <PersonOutlinedIcon
                         className="icon"
                         style={{
-                            color: 'crimson',
-                            backgroundColor: 'rgba(255, 0, 0, 0.2)',
+                            color: "crimson",
+                            backgroundColor: "rgba(255, 0, 0, 0.2)",
+                            width: "40px",
+                            height: "40px",
                         }}
                     />
                 ),
             };
             break;
-        case 'order':
+        case "order":
             data = {
-                title: 'ORDERS',
-                isMoney: false,
-                link: 'View all orders',
+                title: "ORDERS",
+                amount: amountOrder,
                 icon: (
                     <ShoppingCartOutlinedIcon
                         className="icon"
                         style={{
-                            backgroundColor: 'rgba(218, 165, 32, 0.2)',
-                            color: 'goldenrod',
+                            backgroundColor: "rgba(218, 165, 32, 0.2)",
+                            color: "goldenrod",
+                            width: "40px",
+                            height: "40px",
                         }}
                     />
                 ),
             };
             break;
-        case 'earning':
+        case "product":
             data = {
-                title: 'EARNINGS',
-                isMoney: true,
-                link: 'View net earnings',
+                title: "PRODUCTS",
+                amount: amountProduct,
                 icon: (
-                    <MonetizationOnOutlinedIcon
+                    <CategoryIcon
                         className="icon"
-                        style={{ backgroundColor: 'rgba(0, 128, 0, 0.2)', color: 'green' }}
+                        style={{
+                            backgroundColor: "rgba(0, 128, 0, 0.2)",
+                            color: "green",
+                            width: "40px",
+                            height: "40px",
+                        }}
                     />
                 ),
             };
             break;
-        case 'balance':
+        case "warehouse":
             data = {
-                title: 'BALANCE',
-                isMoney: true,
-                link: 'See details',
+                title: "WAREHOUSES",
+                amount: amountWarehouse,
                 icon: (
-                    <AccountBalanceWalletOutlinedIcon
+                    <Warehouse
                         className="icon"
                         style={{
-                            backgroundColor: 'rgba(128, 0, 128, 0.2)',
-                            color: 'purple',
+                            backgroundColor: "rgba(128, 0, 128, 0.2)",
+                            color: "purple",
+                            width: "40px",
+                            height: "40px",
                         }}
                     />
                 ),
@@ -82,18 +128,9 @@ const Widget = ({ type }) => {
         <div className="widget">
             <div className="left">
                 <span className="title">{data.title}</span>
-                <span className="counter">
-                    {data.isMoney && '$'} {amount}
-                </span>
-                <span className="link">{data.link}</span>
+                <span className="counter">{data.amount}</span>
             </div>
-            <div className="right">
-                <div className="percentage positive">
-                    <KeyboardArrowUpIcon />
-                    {diff} %
-                </div>
-                {data.icon}
-            </div>
+            <div className="right">{data.icon}</div>
         </div>
     );
 };

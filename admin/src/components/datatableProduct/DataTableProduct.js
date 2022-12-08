@@ -2,12 +2,13 @@ import "./datatableProduct.scss";
 import { DataGrid } from "@mui/x-data-grid";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 import ProductService from "../../services/ProductService";
 
 const DatatableProduct = () => {
     const [data, setData] = useState([]);
-
+    const navigate = useNavigate();
     const productColumns = [
         {
             field: "_id",
@@ -55,8 +56,9 @@ const DatatableProduct = () => {
         },
     ];
 
-    const handleDelete = (phone) => {
-        setData(data.filter((item) => item.phone !== phone));
+    const handleDelete = (idProduct) => {
+        setData(data.filter((item) => item._id !== idProduct));
+        ProductService.deleteOneProduct(idProduct);
     };
 
     useEffect(() => {
@@ -84,14 +86,26 @@ const DatatableProduct = () => {
             width: 200,
             renderCell: (params) => {
                 return (
-                    <div className="cellAction">
-                        <div
-                            className="deleteButton"
-                            onClick={() => handleDelete(params.row._id)}
-                        >
-                            Delete
+                    <>
+                        <div className="cellAction">
+                            <div
+                                className="deleteButton"
+                                onClick={() => handleDelete(params.row._id)}
+                            >
+                                Delete
+                            </div>
                         </div>
-                    </div>
+                        <div className="cellAction">
+                            <div
+                                className="editButton"
+                                onClick={() =>
+                                    navigate(`edit/${params.row._id}`)
+                                }
+                            >
+                                Edit
+                            </div>
+                        </div>
+                    </>
                 );
             },
         },

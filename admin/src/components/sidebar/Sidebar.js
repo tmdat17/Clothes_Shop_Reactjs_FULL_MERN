@@ -42,11 +42,6 @@ const Sidebar = () => {
             <hr />
             <div className="center">
                 <ul>
-                    <p className="title">MAIN</p>
-                    <li>
-                        <DashboardIcon className="icon" />
-                        <span>Dashboard</span>
-                    </li>
                     <p className="title">LISTS</p>
                     <Link to="/users" style={{ textDecoration: "none" }}>
                         <li>
@@ -60,41 +55,33 @@ const Sidebar = () => {
                             <span>Products</span>
                         </li>
                     </Link>
-                    <li>
-                        <CreditCardIcon className="icon" />
-                        <span>Orders</span>
-                    </li>
 
                     <p className="title">WAREHOUSE</p>
-                    <li>
-                        <WarehouseIcon className="icon" />
-                        <span>WAREHOUSE 1</span>
-                    </li>
-                    <li>
-                        <WarehouseIcon className="icon" />
-                        <span>WAREHOUSE 2</span>
-                    </li>
-                    <li>
-                        <WarehouseIcon className="icon" />
-                        <span>WAREHOUSE 3</span>
-                    </li>
-                    <li>
-                        <WarehouseIcon className="icon" />
-                        <span>WAREHOUSE 4</span>
-                    </li>
-                    <p className="title">SERVICE</p>
-                    <li>
-                        <SettingsSystemDaydreamOutlinedIcon className="icon" />
-                        <span>System Health</span>
-                    </li>
-                    <li>
-                        <PsychologyOutlinedIcon className="icon" />
-                        <span>Logs</span>
-                    </li>
-                    <li>
-                        <SettingsApplicationsIcon className="icon" />
-                        <span>Settings</span>
-                    </li>
+                    <Link to="/warehouse_1" style={{ textDecoration: "none" }}>
+                        <li>
+                            <WarehouseIcon className="icon" />
+                            <span>WAREHOUSE 1</span>
+                        </li>
+                    </Link>
+                    <Link to="/warehouse_2" style={{ textDecoration: "none" }}>
+                        <li>
+                            <WarehouseIcon className="icon" />
+                            <span>WAREHOUSE 2</span>
+                        </li>
+                    </Link>
+                    <Link to="/warehouse_3" style={{ textDecoration: "none" }}>
+                        <li>
+                            <WarehouseIcon className="icon" />
+                            <span>WAREHOUSE 3</span>
+                        </li>
+                    </Link>
+                    <Link to="/warehouse_4" style={{ textDecoration: "none" }}>
+                        <li>
+                            <WarehouseIcon className="icon" />
+                            <span>WAREHOUSE 4</span>
+                        </li>
+                    </Link>
+
                     <p className="title">USER</p>
 
                     <li onClick={handleLogout}>
