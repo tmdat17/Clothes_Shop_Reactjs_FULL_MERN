@@ -82,7 +82,7 @@ const Chart = ({ aspect, title, monthProp, yearProp }) => {
                         };
                     }
                 });
-                console.log("day[] after excute:     ", days);
+                // console.log("day[] after excute:     ", days);
 
                 // let resultTotalPrice = totalArr.map((item) => {
                 //     return (item = Number(item) / 1000.0);

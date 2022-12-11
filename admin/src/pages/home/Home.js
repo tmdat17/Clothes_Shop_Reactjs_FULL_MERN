@@ -5,6 +5,7 @@ import Widget from "../../components/widget/Widget";
 import Featured from "../../components/featured/Featured";
 import Chart from "../../components/chart/Chart";
 import ChartForYear from "../../components/chartForYear/ChartForYear";
+import ChartTheYear from "../../components/chartTheYear/ChartTheYear";
 import Table from "../../components/table/Table";
 import OrderService from "../../services/OrderService";
 import helper from "../../helpers";
@@ -85,10 +86,13 @@ const Home = () => {
             .catch((error) => console.log(error));
     });
 
+    const [typeRadioTheYear, setTypeRadioTheYear] = useState(false);
     const [typeRadioYear, setTypeRadioYear] = useState(true);
     const [typeRadioMonth, setTypeRadioMonth] = useState(false);
     const [selectYear, setSelectYear] = useState("2022");
+    const [selectTheYear, setSelectTheYear] = useState("2022");
     const [selectMonth, setSelectMonth] = useState("01");
+    console.log("selectTheYear:    ", selectTheYear);
     return (
         <div className="home">
             <Sidebar />
@@ -119,8 +123,9 @@ const Home = () => {
                                         type="radio"
                                         id="year"
                                         onChange={() => {
-                                            setTypeRadioYear(!typeRadioYear);
-                                            setTypeRadioMonth(!typeRadioMonth);
+                                            setTypeRadioTheYear(false);
+                                            setTypeRadioYear(true);
+                                            setTypeRadioMonth(false);
                                         }}
                                         checked={typeRadioYear}
                                     />
@@ -140,8 +145,9 @@ const Home = () => {
                                         type="radio"
                                         id="month"
                                         onChange={() => {
-                                            setTypeRadioYear(!typeRadioYear);
-                                            setTypeRadioMonth(!typeRadioMonth);
+                                            setTypeRadioTheYear(false);
+                                            setTypeRadioYear(false);
+                                            setTypeRadioMonth(true);
                                         }}
                                         checked={typeRadioMonth}
                                     />
@@ -163,10 +169,6 @@ const Home = () => {
                                         }}
                                         disabled={!typeRadioMonth}
                                         onClick={(e) => {
-                                            console.log(
-                                                "option:   ",
-                                                e.target.value
-                                            );
                                             setSelectYear(e.target.value);
                                         }}
                                     >
@@ -216,10 +218,6 @@ const Home = () => {
                                         }}
                                         disabled={!typeRadioMonth}
                                         onClick={(e) => {
-                                            console.log(
-                                                "option:   ",
-                                                e.target.value
-                                            );
                                             setSelectMonth(e.target.value);
                                         }}
                                     >
@@ -303,6 +301,80 @@ const Home = () => {
                                         </option>
                                     </select>
                                 </div>
+                                <div
+                                    className="wrapperChooseRevenue"
+                                    style={{ marginTop: "0.5rem" }}
+                                >
+                                    <input
+                                        name="chooseRevenue"
+                                        type="radio"
+                                        id="theYear"
+                                        onChange={() => {
+                                            setTypeRadioTheYear(true);
+                                            setTypeRadioYear(false);
+                                            setTypeRadioMonth(false);
+                                        }}
+                                        checked={typeRadioTheYear}
+                                    />
+                                    <label
+                                        htmlFor="theYear"
+                                        style={{
+                                            marginLeft: "10px",
+                                        }}
+                                    >
+                                        Revenue for the year
+                                    </label>
+                                    <select
+                                        required={true}
+                                        defaultValue=""
+                                        style={{
+                                            width: "10rem",
+                                            display: "block",
+                                            marginBottom: "10px",
+                                        }}
+                                        disabled={!typeRadioTheYear}
+                                        onClick={(e) => {
+                                            setSelectTheYear(e.target.value);
+                                        }}
+                                    >
+                                        <option
+                                            className="d-flex justify-content-between"
+                                            value=""
+                                        >
+                                            Choose Year
+                                        </option>
+                                        <option
+                                            className="d-flex justify-content-between"
+                                            value="2018"
+                                        >
+                                            2018
+                                        </option>
+                                        <option
+                                            className="d-flex justify-content-between"
+                                            value="2019"
+                                        >
+                                            2019
+                                        </option>
+                                        <option
+                                            className="d-flex justify-content-between"
+                                            value="2020"
+                                        >
+                                            2020
+                                        </option>
+                                        <option
+                                            className="d-flex justify-content-between"
+                                            value="2021"
+                                        >
+                                            2021
+                                        </option>
+                                        <option
+                                            className="d-flex justify-content-between"
+                                            value="2022"
+                                        >
+                                            2022
+                                        </option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -311,14 +383,24 @@ const Home = () => {
                             title="Last 5 Year (Revenue)"
                             aspect={2 / 1}
                         />
-                    ) : (
+                    ) : null}
+
+                    {typeRadioMonth ? (
                         <Chart
                             title={`These days in ${selectMonth} ${selectYear} (Revenue)`}
                             aspect={2 / 1}
                             monthProp={selectMonth}
                             yearProp={selectYear}
                         />
-                    )}
+                    ) : null}
+
+                    {typeRadioTheYear ? (
+                        <ChartTheYear
+                            title={`Last 12 Month in ${selectTheYear} (Revenue)`}
+                            aspect={2 / 1}
+                            yearProp={selectTheYear}
+                        />
+                    ) : null}
                 </div>
                 <div className="listContainer">
                     <div className="listTitle">Latest Transactions</div>
