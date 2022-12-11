@@ -1,4 +1,5 @@
 import "./chart.scss";
+import _ from "lodash";
 import {
     AreaChart,
     Area,
@@ -12,45 +13,58 @@ import { useEffect, useState } from "react";
 
 import OrderService from "../../services/OrderService";
 
-// const data = [
-//     { name: "January", Total: 0 },
-//     { name: "February", Total: 0 },
-//     { name: "March", Total: 0 },
-//     { name: "April", Total: 0 },
-//     { name: "May", Total: 0 },
-//     { name: "June", Total: 0 },
-//     { name: "July", Total: 0 },
-//     { name: "August", Total: 0 },
-//     { name: "September", Total: 0 },
-//     { name: "October", Total: 0 },
-//     { name: "November", Total: 0 },
-//     { name: "December", Total: 1700000 },
-// ];
-
-const Chart = ({ aspect, title }) => {
-    const [data, setData] = useState([
-        { name: "Jan", Total: 0 },
-        { name: "Feb", Total: 0 },
-        { name: "Mar", Total: 0 },
-        { name: "Apr", Total: 0 },
-        { name: "May", Total: 0 },
-        { name: "Jun", Total: 0 },
-        { name: "Jul", Total: 0 },
-        { name: "Aug", Total: 0 },
-        { name: "Sep", Total: 0 },
-        { name: "Oct", Total: 0 },
-        { name: "Nov", Total: 0 },
-        { name: "Dec", Total: "1.700" },
-    ]);
-
+const Chart = ({ aspect, title, monthProp, yearProp }) => {
+    const [data, setData] = useState([]);
     useEffect(() => {
         OrderService.getAllOrder()
             .then((res) => {
-                console.log("dataChart[]:     ", res.data);
-                let totalArr = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+                // console.log("dataChart[]:     ", res.data);
+
+                let monthCheck;
+                let flag = 1; //flag=1 la nam nhuan (leap year)
+                if (Number(yearProp) % 4 == 0) {
+                    if (Number(yearProp) % 100 == 0) {
+                        if (Number(yearProp) % 400 == 0) {
+                            flag = 1;
+                        } else flag = 0;
+                    } else flag = 1;
+                } else flag = 0;
+                let month31days = ["01", "03", "05", "07", "08", "10", "12"];
+                let month30days = ["04", "06", "09", "11"];
+                if (month31days.includes(monthProp)) {
+                    monthCheck = 31;
+                } else if (month30days.includes(monthProp)) {
+                    monthCheck = 30;
+                } else if (flag == 1 && monthProp == "02") {
+                    monthCheck = 29;
+                } else if (flag == 0 && monthProp == "02") {
+                    monthCheck = 28;
+                }
+                let days = [];
+                for (let t = 1; t <= monthCheck; t++) {
+                    if (t >= 1 && t <= 9) {
+                        let d = "";
+                        d = d.concat("0").concat(String(t));
+                        days.push({ name: d, Total: 0 });
+                    } else {
+                        days.push({ name: String(t), Total: 0 });
+                    }
+                }
+                console.log("day[]:     ", days);
+
                 res.data.map((item) => {
+                    let year = item.createdAt.split("-")[0];
                     let month = item.createdAt.split("-")[1];
-                    if (month == "01") {
+                    let day = item.createdAt.split("T")[0].split("-")[2];
+                    // console.log("flag:    ", flag);
+                    // console.log("monthcheck res.data.map:   ", monthCheck);
+                    // console.log("dayAPI:    ", day);
+                    const daysIndex = _.findIndex(days, { name: day });
+                    if (
+                        monthProp === month &&
+                        yearProp === year &&
+                        daysIndex !== -1
+                    ) {
                         let money = String(item.totalPrice);
                         money = money.split("");
                         let result = "";
@@ -59,140 +73,24 @@ const Chart = ({ aspect, title }) => {
                                 result = result.concat(money[i]);
                             }
                         }
-                        totalArr[0] = totalArr[0] + Number(result);
-                    } else if (month == "02") {
-                        let money = String(item.totalPrice);
-                        money = money.split("");
-                        let result = "";
-                        for (let i = 0; i < money.length - 4; i++) {
-                            if (money[i] != ".") {
-                                result = result.concat(money[i]);
-                            }
-                        }
-                        totalArr[1] = totalArr[1] + Number(result);
-                    } else if (month == "03") {
-                        let money = String(item.totalPrice);
-                        money = money.split("");
-                        let result = "";
-                        for (let i = 0; i < money.length - 4; i++) {
-                            if (money[i] != ".") {
-                                result = result.concat(money[i]);
-                            }
-                        }
-                        totalArr[2] = totalArr[2] + Number(result);
-                    } else if (month == "04") {
-                        let money = String(item.totalPrice);
-                        money = money.split("");
-                        let result = "";
-                        for (let i = 0; i < money.length - 4; i++) {
-                            if (money[i] != ".") {
-                                result = result.concat(money[i]);
-                            }
-                        }
-                        totalArr[3] = totalArr[3] + Number(result);
-                    } else if (month == "05") {
-                        let money = String(item.totalPrice);
-                        money = money.split("");
-                        let result = "";
-                        for (let i = 0; i < money.length - 4; i++) {
-                            if (money[i] != ".") {
-                                result = result.concat(money[i]);
-                            }
-                        }
-                        totalArr[4] = totalArr[4] + Number(result);
-                    } else if (month == "06") {
-                        let money = String(item.totalPrice);
-                        money = money.split("");
-                        let result = "";
-                        for (let i = 0; i < money.length - 4; i++) {
-                            if (money[i] != ".") {
-                                result = result.concat(money[i]);
-                            }
-                        }
-                        totalArr[5] = totalArr[5] + Number(result);
-                    } else if (month == "07") {
-                        let money = String(item.totalPrice);
-                        money = money.split("");
-                        let result = "";
-                        for (let i = 0; i < money.length - 4; i++) {
-                            if (money[i] != ".") {
-                                result = result.concat(money[i]);
-                            }
-                        }
-                        totalArr[6] = totalArr[6] + Number(result);
-                    } else if (month == "08") {
-                        let money = String(item.totalPrice);
-                        money = money.split("");
-                        let result = "";
-                        for (let i = 0; i < money.length - 4; i++) {
-                            if (money[i] != ".") {
-                                result = result.concat(money[i]);
-                            }
-                        }
-                        totalArr[7] = totalArr[7] + Number(result);
-                    } else if (month == "09") {
-                        let money = String(item.totalPrice);
-                        money = money.split("");
-                        let result = "";
-                        for (let i = 0; i < money.length - 4; i++) {
-                            if (money[i] != ".") {
-                                result = result.concat(money[i]);
-                            }
-                        }
-                        totalArr[8] = totalArr[8] + Number(result);
-                    } else if (month == "10") {
-                        let money = String(item.totalPrice);
-                        money = money.split("");
-                        let result = "";
-                        for (let i = 0; i < money.length - 4; i++) {
-                            if (money[i] != ".") {
-                                result = result.concat(money[i]);
-                            }
-                        }
-                        totalArr[9] = totalArr[9] + Number(result);
-                    } else if (month == "11") {
-                        let money = String(item.totalPrice);
-                        money = money.split("");
-                        let result = "";
-                        for (let i = 0; i < money.length - 4; i++) {
-                            if (money[i] != ".") {
-                                result = result.concat(money[i]);
-                            }
-                        }
-                        totalArr[10] = totalArr[10] + Number(result);
-                    } else if (month == "12") {
-                        let money = String(item.totalPrice);
-                        money = money.split("");
-                        let result = "";
-                        for (let i = 0; i < money.length - 4; i++) {
-                            if (money[i] != ".") {
-                                result = result.concat(money[i]);
-                            }
-                        }
-                        totalArr[11] = totalArr[11] + Number(result);
+                        let tempTotal = days[daysIndex].Total;
+                        tempTotal = tempTotal + Number(result);
+                        // console.log("tempTotal:   ", tempTotal);
+                        days[daysIndex] = {
+                            name: day,
+                            Total: tempTotal,
+                        };
                     }
                 });
-                let resultTotalPrice = totalArr.map((item) => {
-                    return (item = Number(item) / 1000.0);
-                });
+                console.log("day[] after excute:     ", days);
 
-                setData([
-                    { name: "Jan", Total: resultTotalPrice[0] },
-                    { name: "Feb", Total: resultTotalPrice[1] },
-                    { name: "Mar", Total: resultTotalPrice[2] },
-                    { name: "Apr", Total: resultTotalPrice[3] },
-                    { name: "May", Total: resultTotalPrice[4] },
-                    { name: "Jun", Total: resultTotalPrice[5] },
-                    { name: "Jul", Total: resultTotalPrice[6] },
-                    { name: "Aug", Total: resultTotalPrice[7] },
-                    { name: "Sep", Total: resultTotalPrice[8] },
-                    { name: "Oct", Total: resultTotalPrice[9] },
-                    { name: "Nov", Total: resultTotalPrice[10] },
-                    { name: "Dec", Total: resultTotalPrice[11] },
-                ]);
+                // let resultTotalPrice = totalArr.map((item) => {
+                //     return (item = Number(item) / 1000.0);
+                // });
+                setData(days);
             })
             .catch((error) => console.log(error));
-    }, []);
+    }, [monthProp, yearProp]);
 
     return (
         <div className="chart">
