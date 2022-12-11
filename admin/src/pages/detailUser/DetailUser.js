@@ -81,12 +81,12 @@ const DetailUser = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="right">
+                    {/* <div className="right">
                         <Chart
                             aspect={4 / 1}
                             title="User Spending ( Last 6 Months)"
                         />
-                    </div>
+                    </div> */}
                 </div>
                 <div className="bottom">
                     <h1 className="title">Last Transactions</h1>

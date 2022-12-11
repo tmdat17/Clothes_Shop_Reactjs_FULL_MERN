@@ -32,9 +32,10 @@ function App() {
             <Provider store={store}>
                 <BrowserRouter>
                     <Routes>
-                        <Route path="home" element={<Home />} />
                         <Route path="/">
-                            <Route index path="login" element={<Login />} />
+                            {/* <Route index path="home" element={<Home />} /> */}
+                            <Route index element={<Home />} />
+                            <Route path="login" element={<Login />} />
                             <Route path="users">
                                 <Route index element={<ListUser />} />
                                 <Route

@@ -35,7 +35,7 @@ const Sidebar = () => {
     return (
         <div className="sidebar">
             <div className="top">
-                <Link to="/home" style={{ textDecoration: "none" }}>
+                <Link to="/" style={{ textDecoration: "none" }}>
                     <span className="logo">Levent Admin</span>
                 </Link>
             </div>
